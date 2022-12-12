@@ -27,7 +27,7 @@ public class ProductController {
     }
 
     @GetMapping("/info/{id}")
-    public String infoUser(@PathVariable("id") int id, Model model){
+    public String infoUser(@PathVariable("id") int id, Model model) {
         model.addAttribute("product", productService.getProductId(id));
         return "product/infoProduct";
     }
@@ -36,30 +36,27 @@ public class ProductController {
     public String productSearch(@RequestParam("search") String search,
                                 @RequestParam("ot") String ot,
                                 @RequestParam("do") String Do,
-                                @RequestParam(value = "price", required = false, defaultValue = "")String price,
-                                @RequestParam(value = "contact", required = false, defaultValue = "")String contact, Model model){
-        if(!ot.isEmpty() & !Do.isEmpty()){
-            if(!price.isEmpty()){
-                if(price.equals("sorted_by_ascending_price")){
-                    if(!contact.isEmpty())
-                    {
-                        if(contact.equals("smartphone")){
+                                @RequestParam(value = "price", required = false, defaultValue = "") String price,
+                                @RequestParam(value = "contact", required = false, defaultValue = "") String contact, Model model) {
+        if (!ot.isEmpty() & !Do.isEmpty()) {
+            if (!price.isEmpty()) {
+                if (price.equals("sorted_by_ascending_price")) {
+                    if (!contact.isEmpty()) {
+                        if (contact.equals("smartphone")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 1));
-                        } else if(contact.equals("laptop")){
+                        } else if (contact.equals("laptop")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 2));
-                        }else if(contact.equals("TV")){
+                        } else if (contact.equals("TV")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 3));
                         }
                     }
-                }
-                else if (price.equals("sorted_by_descending_price")){
-                    if(!contact.isEmpty())
-                    {
-                        if(contact.equals("smartphone")){
+                } else if (price.equals("sorted_by_descending_price")) {
+                    if (!contact.isEmpty()) {
+                        if (contact.equals("smartphone")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 1));
-                        } else if(contact.equals("laptop")){
+                        } else if (contact.equals("laptop")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 2));
-                        }else if(contact.equals("TV")){
+                        } else if (contact.equals("TV")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 3));
                         }
                     }
@@ -68,8 +65,7 @@ public class ProductController {
                 model.addAttribute("search_product", productRepository.findByTitleAndPriceGreaterThanEqualAndPriceLessThanEqual(search, Float.parseFloat(ot), Float.parseFloat(Do)));
 
             }
-        }
-        else {
+        } else {
             model.addAttribute("search_product", productRepository.findByTitleContainingIgnoreCase(search));
         }
 
@@ -80,5 +76,6 @@ public class ProductController {
         return "/product/product";
 
     }
-
 }
+
+
